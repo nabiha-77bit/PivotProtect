@@ -1,0 +1,213 @@
+================================================================================
+                         PIVOTPROTECT - PROJECT STATE FILE
+                              Nabiha's Part Only
+================================================================================
+
+Last Updated: December 6, 2025
+
+================================================================================
+                              PROJECT OVERVIEW
+================================================================================
+
+Project: PivotProtect - AI powered Intrusion Detection & Prevention System (IDPS)
+Description: Academic project that detects suspicious network behavior using 
+             static log analysis and live packet capturing.
+Technologies: Python 3, Tkinter, Scapy, NumPy/Pandas, Joblib
+
+================================================================================
+                         NABIHA'S ASSIGNED TASKS
+================================================================================
+
+Role: Static Analysis
+
+Main Responsibilities:
+1. Parsing log files
+2. Implementing DSA structures (HashMap, Trie, Graph)
+3. Static anomaly detection
+4. Function: run_static_analysis(filepath)
+
+--------------------------------------------------------------------------------
+DAY 1 TASKS:
+--------------------------------------------------------------------------------
+[✓] Create sample static log file
+[✓] Build basic file parser
+[✓] Implement initial DSA structures:
+    [✓] HashMap skeleton
+    [✓] Trie skeleton
+
+--------------------------------------------------------------------------------
+DAY 2 TASKS:
+--------------------------------------------------------------------------------
+[✓] Complete static detection rules
+[✓] Integrate HashMap, Trie, Graph
+[✓] Test static detection using sample logs
+
+--------------------------------------------------------------------------------
+DAY 3 TASKS:
+--------------------------------------------------------------------------------
+[ ] Finalize output formatting for static results
+[ ] Clean and optimize static detection
+[ ] Help with testing + preparing demo
+
+================================================================================
+                              FILES TO CREATE
+================================================================================
+
+According to README file structure:
+
+src/static_analysis/
+├── parser.py           - Log file parsing functionality
+├── dsa_structures.py   - HashMap, Trie, Graph implementations
+└── static_detector.py  - Static anomaly detection logic
+
+data/
+├── sample_static_logs.txt  - Sample log file for testing
+
+================================================================================
+                           COMPLETED TASKS
+================================================================================
+
+[✓] DAY 1 COMPLETED (November 29, 2025)
+
+    1. Created Sample Static Log File:
+       - File: data/sample_static_logs.txt
+       - Contains 53 log entries in Apache Combined Log Format
+       - Includes normal traffic + attack samples:
+         * Brute force attempts (10 failed logins from same IP)
+         * SQL injection attempts
+         * Path traversal attempts  
+         * XSS attempts
+         * Port scanning behavior
+         * DDoS-like patterns
+         * Suspicious admin access at odd hours
+
+    2. Built Basic File Parser:
+       - File: src/static_analysis/parser.py
+       - LogEntry class for structured log data
+       - LogParser class with regex-based parsing
+       - Methods: parse_file(), get_unique_ips(), get_summary(), etc.
+       - Tested successfully: 53 entries parsed, 0 errors
+
+    3. Implemented DSA Structures:
+       - File: src/static_analysis/dsa_structures.py
+       
+       a) HashMap (Custom Implementation):
+          - Separate chaining for collision resolution
+          - Auto-resize with load factor
+          - Methods: put, get, increment, get_top_n, etc.
+          - Use case: IP frequency tracking
+       
+       b) Trie (Prefix Tree):
+          - Path-based tokenization
+          - Methods: insert, search, starts_with, find_suspicious_patterns
+          - Use case: URL/endpoint pattern matching
+          - Detects: path traversal, suspicious file access
+       
+       c) Graph (Adjacency List):
+          - Directed graph with weighted edges
+          - Methods: add_edge, bfs, find_connected_components
+          - Use case: IP-to-endpoint relationship analysis
+          - Detects: scanning behavior, frequent connections
+
+[✓] Dataset Preprocessing (November 29, 2025)
+    - Preprocessed 3 datasets for training:
+    
+    1. EMBER (File Malware) Dataset:
+       - Training: 21,335 samples, 589 features
+       - Test: 5,000 samples, 589 features
+       - Labels: Binary (0=benign, 1=malware)
+       - Output: data/processed/ember/train/ and data/processed/ember/test/
+    
+    2. CICIDS2017 (Network Detection) Dataset:
+       - Samples: 2,520,798
+       - Features: 70
+       - Labels: 15 attack categories (BENIGN, DDoS, DoS Hulk, PortScan, etc.)
+       - Output: data/processed/network/
+    
+    3. Server Log Dataset:
+       - Samples: 1,000,000
+       - Features: 46
+       - Labels: Binary (normal/anomaly)
+       - Output: data/processed/serverlog/
+
+[✓] Created Preprocessing Scripts:
+    - src/preprocessing/__init__.py
+    - src/preprocessing/ember_preprocessor.py
+    - src/preprocessing/network_preprocessor.py
+    - src/preprocessing/serverlog_preprocessor.py
+    - src/run_preprocessing.py
+
+[✓] Added feature_columns.txt to all datasets (December 3, 2025)
+    - EMBER: 589 features (data/processed/ember/train/ and test/)
+    - Network: 70 features (data/processed/network/)
+    - ServerLog: 46 features (data/processed/serverlog/)
+
+[✓] DAY 2 COMPLETED (December 6, 2025)
+
+    1. Created Static Detector:
+       - File: src/static_analysis/static_detector.py
+       - Threat and DetectionResult classes for structured output
+       - DetectionConfig for configurable thresholds
+       - AttackPatterns with regex patterns for SQL injection, XSS, path traversal
+       
+    2. Detection Rules Implemented:
+       - BRUTE_FORCE: Multiple failed logins from same IP within time window
+       - SQL_INJECTION: Pattern matching for SQL keywords and injection syntax
+       - XSS: Detection of script tags, javascript:, event handlers
+       - PATH_TRAVERSAL: ../ patterns, %2e encoding, sensitive file access
+       - PORT_SCAN: High out-degree in Graph (many endpoints in short time)
+       - DDOS: Multiple IPs hitting same endpoint simultaneously, 503 errors
+       - OFF_HOURS_ADMIN: Admin endpoint access outside 6AM-10PM
+       - SUSPICIOUS_TOOL: Detection of sqlmap, nmap, nikto, curl user agents
+       
+    3. DSA Integration:
+       - HashMap: IP frequency tracking (get_top_n for suspicious IPs)
+       - Trie: Endpoint pattern analysis (find_suspicious_patterns)
+       - Graph: Connection analysis (get_high_degree_nodes for port scanning)
+       
+    4. Main Entry Point:
+       - Function: run_static_analysis(filepath)
+       - Ready for GUI integration by Samrah
+       - Returns DetectionResult with threats, summary, statistics
+       
+    5. Test Results (sample_static_logs.txt):
+       - Total Threats Detected: 17
+       - Unique Attackers: 8
+       - CRITICAL: 3 (SQL injection, DDoS)
+       - HIGH: 7 (Brute force, XSS, Path traversal)
+       - MEDIUM: 7 (Port scan, Off-hours admin, Suspicious tools)
+
+================================================================================
+                           IN PROGRESS
+================================================================================
+
+[ ] None currently
+
+================================================================================
+                           NEXT STEPS (DAY 3)
+================================================================================
+
+1. Finalize output formatting for static results:
+   - Clean up report output for GUI display
+   - Add color-coded severity indicators
+   - Format timestamps and evidence nicely
+
+2. Clean and optimize static detection:
+   - Remove duplicate threat entries
+   - Fine-tune detection thresholds
+   - Add additional patterns if needed
+
+3. Help with testing + preparing demo:
+   - Test integration with Samrah's GUI
+   - Prepare sample attack scenarios
+   - Document detection capabilities
+
+================================================================================
+                              NOTES
+================================================================================
+
+- Using only NumPy/Pandas for preprocessing (no scikit-learn as per requirements)
+- All preprocessing uses Z-score normalization: (x - mean) / std
+- Label encoding done with Pandas dictionary mapping
+
+================================================================================
