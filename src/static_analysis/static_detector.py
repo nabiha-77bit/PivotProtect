@@ -482,29 +482,29 @@ class StaticDetector:
         stats['top_ips'] = top_ips
         
         # Status code distribution
-        status_dist = defaultdict(int)
+        status_dist = HashMap()
         for entry in entries:
-            status_dist[entry.status] += 1
-        stats['status_distribution'] = dict(status_dist)
+            status_dist.increment(entry.status)
+        stats['status_distribution'] = dict(status_dist.items())
         
         # Method distribution
-        method_dist = defaultdict(int)
+        method_dist = HashMap()
         for entry in entries:
-            method_dist[entry.method] += 1
-        stats['method_distribution'] = dict(method_dist)
+            method_dist.increment(entry.method)
+        stats['method_distribution'] = dict(method_dist.items())
         
         return stats
     
     def _create_summary(self, result: DetectionResult) -> Dict:
         """Create analysis summary"""
-        threat_types = defaultdict(int)
+        threat_types = HashMap()
         for threat in result.threats:
-            threat_types[threat.threat_type] += 1
+            threat_types.increment(threat.threat_type)
         
         return {
             'total_threats': len(result.threats),
             'unique_attackers': len(result.get_unique_attackers()),
-            'threat_breakdown': dict(threat_types),
+            'threat_breakdown': dict(threat_types.items()),
             'critical_count': len(result.get_threats_by_severity(Threat.SEVERITY_CRITICAL)),
             'high_count': len(result.get_threats_by_severity(Threat.SEVERITY_HIGH)),
             'medium_count': len(result.get_threats_by_severity(Threat.SEVERITY_MEDIUM)),
