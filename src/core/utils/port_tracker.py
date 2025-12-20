@@ -1,4 +1,4 @@
-from src.static_analysis.dsa_structures import HashMap
+from static_analysis.dsa_structures import HashMap
 
 
 class PortTracker:

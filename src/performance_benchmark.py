@@ -15,7 +15,7 @@ from typing import Callable, List, Tuple, Dict, Any
 # Add parent to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.static_analysis.dsa_structures import HashMap, Trie, Graph
+from static_analysis.dsa_structures import HashMap, Trie, Graph
 
 
 class PerformanceBenchmark:

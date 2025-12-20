@@ -6,7 +6,7 @@ Parses Apache Combined Log Format and extracts structured data.
 import re
 from typing import List, Dict, Optional
 from datetime import datetime
-from src.static_analysis.dsa_structures import HashMap
+from .dsa_structures import HashMap
 
 class LogEntry:
     """Represents a single parsed log entry"""
